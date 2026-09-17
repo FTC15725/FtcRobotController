@@ -23,9 +23,25 @@ allprojects {
     repositories {
         mavenCentral()
         google()
+        maven { 
+            url = 'http://maven.bylazar.com/repository/maven-public/' 
+            allowInsecureProtocol = true
+        }
+        maven { 
+            url = 'http://mymaven.bylazar.com/releases' 
+            allowInsecureProtocol = true
+        }
     }
 }
 
 repositories {
     mavenCentral()
+    maven { 
+        url = 'http://maven.bylazar.com/repository/maven-public/' 
+        allowInsecureProtocol = true
+    }
+    maven { 
+        url = 'http://mymaven.bylazar.com/releases' 
+        allowInsecureProtocol = true
+    }
 }
