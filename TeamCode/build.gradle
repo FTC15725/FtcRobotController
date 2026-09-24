@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 
+
 //
 // build.gradle in TeamCode
 //
@@ -19,6 +20,11 @@ apply from: '../build.dependencies.gradle'
 android {
     namespace = 'org.firstinspires.ftc.teamcode'
 
+    compileSdk 35
+    defaultConfig {
+        minSdk 24
+    }
+
     packagingOptions {
         jniLibs.useLegacyPackaging true
     }
@@ -26,4 +32,5 @@ android {
 
 dependencies {
     implementation project(':FtcRobotController')
+    implementation 'com.bylazar:fullpanels:1.0.13'
 }
