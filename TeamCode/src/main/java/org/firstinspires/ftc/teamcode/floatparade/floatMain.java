@@ -13,12 +13,13 @@ public class floatMain extends OpMode {
     // Anchor the twitches fall back to when the servo reports no pose at all, which is what a limp,
     // never-driven channel reports. Nothing is commanded at Init, so this is not a start pose: the
     // head stays wherever it is put by hand, and the twitches anchor on the pose the servo reports.
-    private static final double HEAD_FALLBACK_POSE = 0.1;
+    // private static final double HEAD_FALLBACK_POSE = 0.86;
+    private static final double HEAD_FALLBACK_POSE = 0.86;
 
     // How far the head twitches, in degrees: the one knob for the twitch size. A twitch flicks this
     // far one way, swings back double that, then comes home, so it always ends on the pose it
     // started from. Which way it flicks first is a coin flip.
-    private static final double HEAD_TWITCH_DEGREES = 20.0;
+    private static final double HEAD_TWITCH_DEGREES = 40.0;
     private static final double HEAD_SWING_BACK_DEGREES = HEAD_TWITCH_DEGREES * 2.0;
 
     // Servo travel that maps to the full 0.0 - 1.0 position range.
@@ -61,6 +62,7 @@ public class floatMain extends OpMode {
     private double lastTime = -1.0;
     private double waitTimer = 0.0;
     private double waitSeconds = TWITCH_MIN_WAIT_SECONDS;
+
     private int twitchCount = 0;
     private int clippedCount = 0;
 
@@ -221,6 +223,25 @@ public class floatMain extends OpMode {
     // The only place the head is ever commanded, which is what makes the channel drive the servo and
     // what makes the reported pose meaningful from then on.
     private void command(double pose) {
+        double startPose = head.getPosition();
+        double targetPose = pose;
+
+        int steps = 50;
+        long sleepTimeMs = 10;
+
+        for (int i = 1; i <= steps; i++) {
+            double intermediatePose = startPose + (targetPose - startPose) * ((double) i / steps);
+
+            head.setPosition(intermediatePose);
+
+            try {
+                Thread.sleep(sleepTimeMs);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
+            }
+        }
+
         head.setPosition(pose);
         haveDrivenHead = true;
     }
