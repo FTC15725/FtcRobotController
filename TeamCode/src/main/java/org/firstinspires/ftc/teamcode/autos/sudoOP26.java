@@ -17,7 +17,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.OpModeStorage;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
 
-@Autonomous(name = "AutoPath", group = "Autonomous")
+@Autonomous(name = "Dissention(janessa sucks)", group = "Autonomous")
 public class sudoOP26 extends LinearOpMode {
 
     private Follower follower;
