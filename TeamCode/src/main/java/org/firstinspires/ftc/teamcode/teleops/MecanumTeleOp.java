@@ -46,16 +46,23 @@ public class MecanumTeleOp extends LinearOpMode {
             frontRightMotor.setPower(frontRightPower);
             backRightMotor.setPower(backRightPower);
 
-            // Shooter / Intake controls (gamepad2)
+            // Shooter / Flywheel controls (gamepad2)
             boolean aCurrentState = gamepad2.a;
             if (aCurrentState && !aLastState) {
                 flywheelRunning = !flywheelRunning;
             }
             aLastState = aCurrentState;
 
+            // Flywheel uses closed-loop PIDF velocity control
             shooter.setFlywheelPower(flywheelRunning ? 0.85 : 0.0);
-            shooter.setIndexerPower(gamepad2.right_trigger);
-            shooter.setIntakePower(gamepad2.right_bumper ? 1.0 : 0.0);
+
+            // Indexer controls: RT for forward, LT for reverse direction
+            double indexerPower = gamepad2.right_trigger - gamepad2.left_trigger;
+            shooter.setIndexerPower(indexerPower);
+
+            // Intake controls: RB for forward (1.0), LB for reversed (-1.0)
+            double intakePower = gamepad2.right_bumper ? 1.0 : (gamepad2.left_bumper ? -1.0 : 0.0);
+            shooter.setIntakePower(intakePower);
         }
     }
 }

@@ -42,7 +42,7 @@ public class sudoTeleOP26 extends OpMode {
         }
 
         // Shooter / Intake controls (gamepad2)
-        // A button toggles flywheel motor
+        // A button toggles flywheel motor (uses PIDF)
         boolean aCurrentState = gamepad2.a;
         if (aCurrentState && !aLastState) {
             flywheelRunning = !flywheelRunning;
@@ -51,10 +51,12 @@ public class sudoTeleOP26 extends OpMode {
 
         shooter.setFlywheelPower(flywheelRunning ? 0.8 : 0.0);
 
-        // R2 (right_trigger) does the funnel / indexer
-        shooter.setIndexerPower(gamepad2.right_trigger);
+        // R2 (right_trigger) / L2 (left_trigger) does the funnel / indexer (LT reversed RT)
+        double indexerPower = gamepad2.right_trigger - gamepad2.left_trigger;
+        shooter.setIndexerPower(indexerPower);
 
-        // RB (right_bumper) does the intake
-        shooter.setIntakePower(gamepad2.right_bumper ? 1.0 : 0.0);
+        // RB (right_bumper) / LB (left_bumper) does the intake (LB reversed RB)
+        double intakePower = gamepad2.right_bumper ? 1.0 : (gamepad2.left_bumper ? -1.0 : 0.0);
+        shooter.setIntakePower(intakePower);
     }
 }
