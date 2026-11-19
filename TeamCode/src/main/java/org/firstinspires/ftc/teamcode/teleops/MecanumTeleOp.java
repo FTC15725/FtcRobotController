@@ -33,7 +33,7 @@ public class MecanumTeleOp extends LinearOpMode {
         while (opModeIsActive()) {
             double y = -gamepad1.left_stick_y;
             double x = gamepad1.left_stick_x * 1.1;
-            double rx = gamepad1.right_stick_x;
+            double rx = gamepad1.right_stick_x * 0.5;
 
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
             double frontLeftPower = (y + x + rx) / denominator;
@@ -53,7 +53,7 @@ public class MecanumTeleOp extends LinearOpMode {
             }
             aLastState = aCurrentState;
 
-            shooter.setFlywheelPower(flywheelRunning ? 1 : 0.0);
+            shooter.setFlywheelPower(flywheelRunning ? 0.85 : 0.0);
             shooter.setIndexerPower(gamepad2.right_trigger);
             shooter.setIntakePower(gamepad2.right_bumper ? 1.0 : 0.0);
         }
